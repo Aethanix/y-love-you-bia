@@ -1,47 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Dear Sun</title>
-    <meta name="language" content="en-US">
-    <meta name="title" content="Dear Sun">
-    <meta name="description" content="Collecting this wasn't easy — your star is my motivation to keep going! Contributions are welcome too.">
-    <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/sun0225SUN/photos/img/20210715233345.png">
-    <link rel="stylesheet" href="love.css">
+  <title>Convite MeuApp</title>
 </head>
-
-
 <body>
+  <h2>Seu convite está pronto!</h2>
+  <p>Convite de: <strong id="ref"></strong></p>
+  <button onclick="copiarConvite()">Copiar convite e baixar app</button>
 
-    <audio autoplay="autopaly" loop="loop" id="audios" preload="auto">
-        <source src="1.mp3" />
-    </audio>
+  <script>
+    async function copiarConvite() {
+      const ref = new URLSearchParams(window.location.search).get("ref") || "DESCONHECIDO";
+      document.getElementById("ref").textContent = ref;
 
-    <div class="container" onselectstart="return false;" unselectable="on" style="-moz-user-select:none;">
+      const dados = {
+        app: "MeuApp",
+        codigo: ref,
+        timestamp: new Date().toISOString()
+      };
 
-        <div class="body_left">
-            <img src="biubiubiu.gif" alt="" ondragstart='return false;'>
-        </div>
+      const texto = JSON.stringify(dados, null, 2);
 
-        <div class="body_center love">
-            <div class="block">
-                <div class="div1"></div>
-                <div class="div2"></div>
-                <div class="div3"></div>
-                <div class="div4"></div>
-            </div>
-        </div>
-    </div>
+      try {
+        await navigator.clipboard.writeText(texto);
+        alert("Convite copiado com sucesso!");
 
-    <div class="footer">
-        <div class="border">
-            <div class="border-top"></div>
-            <div class="border-bottom"></div>
-        </div>
-    </div>
-
-    <script type="text/javascript" src="love.js"></script>
-
+        // Redirecionar para o APK
+        window.location.href = "https://meuapp.com/downloads/meuapp.apk";
+      } catch (err) {
+        alert("Erro ao copiar convite: " + err);
+      }
+    }
+  </script>
 </body>
-
 </html>
